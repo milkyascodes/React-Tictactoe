@@ -10,6 +10,7 @@ function Grid() {
     const [turn, setTurn] = useState('x')
     const [cells, setCells] = useState(Array(9).fill(''))
     const [winner, setWinner] =  useState()  
+    const [draw, setDraw] = useState(false)
 
 
 
@@ -52,10 +53,14 @@ function Grid() {
                 ){
                     
                     setWinner(squares[pattern[0]])
-                    // setCells(squares)
              
                 }
-                
+                if(
+                    squares[pattern[0]] !== squares[pattern[1]] &&
+                    squares[pattern[1]] !== squares[pattern[2]] &&
+                    !squares.includes('')
+                )
+                setDraw(true)
                 
             })
         }
@@ -88,6 +93,7 @@ function Grid() {
     const reset = () => {
 		setWinner(null);
 		setCells(Array(9).fill(''));
+        setDraw(false)
 	};
 
     // clicking cells
@@ -122,7 +128,8 @@ function Grid() {
 
 <br />
 
-            {!winner &&(
+            {!winner ?
+            (
                 
                 < div className="flex">
                 
@@ -133,7 +140,7 @@ function Grid() {
                         size="lg" 
                         // fullWidth
                         >
-                    turn : {turn}   
+                        {!draw ? (`turn : ${turn}`):(`It's a draw` )}
                     </Button>
 
                     <Button 
@@ -145,8 +152,8 @@ function Grid() {
                     </Button>
                 </div>
 
-            )}
-            {winner &&(
+            ):
+            (
                 <div className="flex">
                     <Button 
                         
@@ -167,9 +174,7 @@ function Grid() {
                     </Button>
 
                 </div>
-
-            )}
-                    
+            )} 
           
 
            
